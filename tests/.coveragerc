@@ -1,0 +1,18 @@
+[run]
+branch = True
+data_file = tests/.coverage
+source =
+    General
+    Buyer
+    Seller
+    Admin
+    passiton
+omit =
+    */migrations/*
+    passiton/asgi.py
+    passiton/wsgi.py
+
+[report]
+show_missing = True
+skip_covered = False
+precision = 1
