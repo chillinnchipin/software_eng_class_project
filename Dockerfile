@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED=1
 
 # install dependencies
 COPY requirements.txt /passiton/
-COPY tests/requirements.txt /passiton/test/
+COPY tests/requirements.txt /passiton/tests/
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir -r tests/requirements.txt
 
