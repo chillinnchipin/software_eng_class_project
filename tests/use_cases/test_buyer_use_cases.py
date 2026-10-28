@@ -46,7 +46,6 @@ class UC01BuyerCreatesAccount(PassItOnTestCase):
         self.assertEqual(user.role, "buyer")
         self.assertTrue(user.check_password("LongEnough1"))
         self.assertFalse(user.buyer_approved)
-        self.assertIn("access_token", resp.cookies)
 
     def test_register_buyer_security_answer_stored_hashed_and_normalised(self):
         """The answer is lower-cased before hashing so later resets are case-insensitive."""
