@@ -152,12 +152,12 @@ class SellerProfileViewTests(SellerViewTestCase):
 
 
 class _ImagesDirMixin:
-    """Redirect cover uploads to a temp dir so tests never write into the repo's book_images/."""
+    """Redirect cover uploads to a temp dir so tests never write into the repo's media/book_images/."""
 
     def setUp(self):
         super().setUp()
         self.tmp = Path(tempfile.mkdtemp())
-        (self.tmp / "book_images").mkdir()
+        (self.tmp / "media" / "book_images").mkdir(parents=True)
         self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
         override = override_settings(BASE_DIR=self.tmp)
         override.enable()
@@ -247,7 +247,7 @@ class AddBooksViewTests(_ImagesDirMixin, SellerViewTestCase):
         self._post(title="My: Book?", cover_image=cover)
         book = Book.objects.get()
         self.assertIsNone(book.cover_image_url)
-        self.assertEqual((self.tmp / "book_images" / "My_ Book_.jpg").read_bytes(), b"\xff\xd8jpegdata")
+        self.assertEqual((self.tmp / "media" / "book_images" / "My_ Book_.jpg").read_bytes(), b"\xff\xd8jpegdata")
 
     def test_add_books_cover_extension_inferred_from_content_type(self):
         """A file with no usable extension gets one from its content type."""
@@ -255,7 +255,7 @@ class AddBooksViewTests(_ImagesDirMixin, SellerViewTestCase):
             with self.subTest(ctype=ctype):
                 cover = SimpleUploadedFile("upload.bin", b"img", content_type=ctype)
                 self._post(title=f"Inferred {ext[1:]}", cover_image=cover)
-                self.assertTrue((self.tmp / "book_images" / f"Inferred {ext[1:]}{ext}").exists())
+                self.assertTrue((self.tmp / "media" / "book_images" / f"Inferred {ext[1:]}{ext}").exists())
 
 
 class ManageInventoryGetTests(SellerViewTestCase):

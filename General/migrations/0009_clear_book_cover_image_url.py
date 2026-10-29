@@ -1,4 +1,4 @@
-# Clear cover_image_url for all books so covers use book_images/ (or default.jpg)
+# Clear cover_image_url for all books so covers use media/book_images/ (or default.jpg)
 
 from django.db import migrations
 

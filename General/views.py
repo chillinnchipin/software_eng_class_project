@@ -24,9 +24,9 @@ from django.views.decorators.cache import never_cache
 User = get_user_model()
 
 # Directory for local book cover images (name = book title + extension)
-_BOOK_IMAGES_DIR = Path(settings.BASE_DIR) / "book_images"
+_BOOK_IMAGES_DIR = Path(settings.BASE_DIR) / "media" / "book_images"
 if not _BOOK_IMAGES_DIR.exists():
-    _BOOK_IMAGES_DIR = Path(settings.BASE_dsDIR).parent / "book_images"
+    _BOOK_IMAGES_DIR = Path(settings.BASE_DIR).parent / "media" / "book_images"
 
 SECURITY_QUESTION_CHOICES = {
     "city": "In what city were you born?",

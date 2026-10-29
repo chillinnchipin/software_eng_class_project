@@ -57,7 +57,7 @@ With Docker, add `-r tests/requirements.txt` to the image's pip install. Then ru
 
 - **Names** follow `test_<unit>_<scenario>_<expected result>`. Non-obvious tests have one-line docstrings.
 - **Known bugs** are tests that assert the *intended* behaviour, decorated with `@unittest.expectedFailure` and a `# BUG:` comment. Each one was checked with the decorator removed: it fails because of the bug, not because of setup. Once a bug is fixed, the runner reports "unexpected success"; remove the decorator then.
-- **Isolation:** tests make no network calls (`requests.post` is mocked, and `transaction.on_commit` webhooks only run when explicitly captured). Cover uploads go to a temp `BASE_DIR`, never the repo's `book_images/`.
+- **Isolation:** tests make no network calls (`requests.post` is mocked, and `transaction.on_commit` webhooks only run when explicitly captured). Cover uploads go to a temp `BASE_DIR`, never the repo's `media/book_images/`.
 
 ## Use-case traceability
 
@@ -153,4 +153,3 @@ Almost all of the uncovered remainder can't be reached by any test:
 - `webhook_notify.py` lines 76–85 and 135–157 sit behind bug 2.
 - `Seller/views.py` lines 755–772 are the dead approve/deny branches (bug 3).
 - The `Buyer/views.py` gaps are the anonymous-cart branches behind `@login_required`.
-- `General/views.py:29` only runs when `book_images/` is missing.

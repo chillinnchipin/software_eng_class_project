@@ -113,13 +113,13 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Serve book cover images from book_images/ (project root or parent directory)
-_BOOK_IMAGES_DIR = BASE_DIR / 'book_images'
+# Serve book cover images from media/book_images/ (project root or parent directory)
+_BOOK_IMAGES_DIR = BASE_DIR / 'media' / 'book_images'
 if not _BOOK_IMAGES_DIR.exists():
-    _BOOK_IMAGES_DIR = BASE_DIR.parent / 'book_images'
+    _BOOK_IMAGES_DIR = BASE_DIR.parent / 'media' / 'book_images'
 STATICFILES_DIRS = []
 if _BOOK_IMAGES_DIR.exists():
-    STATICFILES_DIRS.append((str(_BOOK_IMAGES_DIR), 'book_images'))
+    STATICFILES_DIRS.append(str(_BOOK_IMAGES_DIR.parent))
 
 _ASSETS_DIR = BASE_DIR / "static"
 if _ASSETS_DIR.exists():

@@ -730,7 +730,7 @@ class BookCoverLookupTests(SimpleTestCase):
 
 class RepoBookCoverTests(SimpleTestCase):
     def test_cover_filename_repo_images_dir_finds_1984(self):
-        """Read-only check against the shipped book_images/ directory."""
+        """Read-only check against the shipped media/book_images/ directory."""
         self.assertEqual(general_views._get_book_cover_filename("1984"), "1984.jpg")
 
 
@@ -754,14 +754,17 @@ class GetBookImagesDirTests(SimpleTestCase):
         (self.root / "proj").mkdir()
 
     def test_book_images_dir_existing_under_base_dir_returned(self):
-        (self.root / "proj" / "book_images").mkdir()
+        (self.root / "proj" / "media" / "book_images").mkdir(parents=True)
         with override_settings(BASE_DIR=self.root / "proj"):
-            self.assertEqual(seller_views._get_book_images_dir(), self.root / "proj" / "book_images")
+            self.assertEqual(
+                seller_views._get_book_images_dir(),
+                self.root / "proj" / "media" / "book_images",
+            )
 
     def test_book_images_dir_missing_falls_back_to_parent_and_creates(self):
         with override_settings(BASE_DIR=self.root / "proj"):
             d = seller_views._get_book_images_dir()
-        self.assertEqual(d, self.root / "book_images")
+        self.assertEqual(d, self.root / "media" / "book_images")
         self.assertTrue(d.is_dir())
 
 

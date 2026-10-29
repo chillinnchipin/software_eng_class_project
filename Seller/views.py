@@ -44,9 +44,9 @@ def _sanitize_book_title_for_filename(title: str) -> str:
 
 def _get_book_images_dir() -> Path:
     """Return the on-disk directory used for storing covers."""
-    d = Path(settings.BASE_DIR) / "book_images"
+    d = Path(settings.BASE_DIR) / "media" / "book_images"
     if not d.exists():
-        d = Path(settings.BASE_DIR).parent / "book_images"
+        d = Path(settings.BASE_DIR).parent / "media" / "book_images"
     d.mkdir(parents=True, exist_ok=True)
     return d
 
