@@ -4,7 +4,7 @@ set -euo pipefail
 APP_DIR=/home/ubuntu/passiton-books
 
 for unit in gunicorn.socket gunicorn.service; do
-    unit_file="$APP_DIR/gunicorn/$unit"
+    unit_file="$APP_DIR/deploy/gunicorn/$unit"
     if [[ ! -f "$unit_file" ]]; then
         echo "Error: systemd unit not found: $unit_file" >&2
         exit 1

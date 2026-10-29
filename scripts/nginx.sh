@@ -2,7 +2,7 @@
 set -euo pipefail
 
 APP_DIR=/home/ubuntu/passiton-books
-SITE_CONFIG="$APP_DIR/nginx/nginx.conf"
+SITE_CONFIG="$APP_DIR/deploy/nginx/nginx.conf"
 AVAILABLE_CONFIG=/etc/nginx/sites-available/passiton
 ENABLED_CONFIG=/etc/nginx/sites-enabled/passiton
 
