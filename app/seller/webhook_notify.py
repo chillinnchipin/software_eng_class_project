@@ -7,7 +7,7 @@ import requests
 from django.db import transaction
 from django.db.models import Prefetch
 
-from Buyer.models import Order, OrderItem
+from app.buyer.models import Order, OrderItem
 
 from .models import SellerProfile
 

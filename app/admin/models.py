@@ -1,5 +1,5 @@
 from django.db import models
-from General.models import User, Book
+from app.general.models import User, Book
 
 
 class FlagReport(models.Model):

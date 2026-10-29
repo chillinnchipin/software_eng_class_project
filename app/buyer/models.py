@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 
-from General.models import User, Book, Address, StewardContribution
+from app.general.models import User, Book, Address, StewardContribution
 
 
 class Cart(models.Model):

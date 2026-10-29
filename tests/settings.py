@@ -3,7 +3,7 @@
 Application settings are not modified; this module only layers test-only overrides on top.
 """
 
-from passiton.settings import *  # noqa: F401,F403
+from config.settings.settings import *  # noqa: F401,F403
 
 # MD5 hashing keeps the suite fast; security of hashes is irrelevant in tests.
 PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]

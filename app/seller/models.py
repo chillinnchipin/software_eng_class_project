@@ -1,5 +1,5 @@
 from django.db import models
-from General.models import User
+from app.general.models import User
 
 
 class SellerProfile(models.Model):

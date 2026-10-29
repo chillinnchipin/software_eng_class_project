@@ -16,9 +16,9 @@ from django.core.paginator import Paginator
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.middleware.csrf import get_token
 from .forms import ForgotPasswordEmailForm, RegisterForm, SecurityQuestionResetForm, SecurityQuestionForm
-from Admin.models import FlagReport
+from app.admin.models import FlagReport
 from .models import Book, StewardContribution
-from Buyer.models import Order, OrderItem, Review
+from app.buyer.models import Order, OrderItem, Review
 from django.views.decorators.cache import never_cache
 
 User = get_user_model()
@@ -147,7 +147,7 @@ def login_page(request):
                 return redirect("login")
             login(request, user)
 
-            from Buyer.cart_helpers import merge_session_cart_into_db
+            from app.buyer.cart_helpers import merge_session_cart_into_db
 
             merge_session_cart_into_db(user, request.session)
             if next_url and next_url.startswith("/"):
@@ -228,7 +228,7 @@ def register(request):
         user.save(update_fields=["security_question", "security_answer_hash"])
 
         if role == "seller":
-            from Seller.models import SellerProfile
+            from app.seller.models import SellerProfile
             user.seller_approved = False
             user.save(update_fields=["seller_approved"])
 
@@ -239,7 +239,7 @@ def register(request):
     
         login(request, user)
 
-        from Buyer.cart_helpers import merge_session_cart_into_db
+        from app.buyer.cart_helpers import merge_session_cart_into_db
         merge_session_cart_into_db(user, request.session)
 
         if user.role == "seller":

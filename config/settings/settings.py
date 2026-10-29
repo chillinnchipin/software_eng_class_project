@@ -15,7 +15,7 @@ from datetime import timedelta
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parents[2]
 
 AUTH_USER_MODEL = "General.User"
 LOGIN_URL = "login"
@@ -42,10 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Buyer.apps.BuyerConfig',
-    'Seller.apps.SellerConfig',
-    'Admin.apps.AdminConfig',
-    'General.apps.GeneralConfig',
+    'app.buyer.apps.BuyerConfig',
+    'app.seller.apps.SellerConfig',
+    'app.admin.apps.AdminConfig',
+    'app.general.apps.GeneralConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
@@ -61,10 +61,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'General.middleware.NoCacheMiddleware',  # Custom middleware to prevent caching of auth views
+    'app.general.middleware.NoCacheMiddleware',  # Custom middleware to prevent caching of auth views
 ]
 
-ROOT_URLCONF = 'passiton.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -81,7 +81,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'passiton.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database

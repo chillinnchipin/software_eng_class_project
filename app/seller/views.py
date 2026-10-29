@@ -13,9 +13,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
-from Buyer.models import Order, OrderItem, ReturnRequest, SellerReturnReceipt, Review
-from General.models import Book, Inventory, User
-from General.forms import SecurityQuestionForm
+from app.buyer.models import Order, OrderItem, ReturnRequest, SellerReturnReceipt, Review
+from app.general.models import Book, Inventory, User
+from app.general.forms import SecurityQuestionForm
 from .forms import SellerWebhookForm
 from .models import SellerProfile
 from .webhook_notify import build_test_webhook_payload, post_seller_webhook

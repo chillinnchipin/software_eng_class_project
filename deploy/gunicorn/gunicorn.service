@@ -9,5 +9,5 @@ User=ubuntu
 Group=www-data
 WorkingDirectory=/home/ubuntu/passiton-books
 Environment="SQLITE_DB_PATH=/home/ubuntu/passiton_data/db.sqlite3"
-ExecStart=/home/ubuntu/passiton-books/.venv/bin/gunicorn --access-logfile - --workers 3 --bind fd://3 passiton.wsgi:application
+ExecStart=/home/ubuntu/passiton-books/.venv/bin/gunicorn --access-logfile - --workers 3 --bind fd://3 config.wsgi:application
 Restart=on-failure

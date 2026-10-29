@@ -37,7 +37,7 @@ python3.12 -m venv .venv            # or: uv venv .venv --python 3.12
 
 With Docker, add `-r tests/requirements.txt` to the image's pip install. Then run `python manage.py test tests --settings=tests.settings` in the container (the default entrypoint starts the server instead).
 
-`tests/settings.py` imports `passiton.settings` and changes two things for tests: a fast MD5 password hasher and silenced logging. Django creates a throw-away in-memory SQLite DB and runs all migrations, including the one that seeds `StewardPool`. The real `db.sqlite3` is never touched.
+`tests/settings.py` imports `config.settings.settings` and changes two things for tests: a fast MD5 password hasher and silenced logging. Django creates a throw-away in-memory SQLite DB and runs all migrations, including the one that seeds `StewardPool`. The real `db.sqlite3` is never touched.
 
 ## Layout and conventions
 

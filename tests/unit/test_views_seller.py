@@ -11,9 +11,9 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import override_settings
 from django.urls import reverse
 
-from Buyer.models import SellerReturnReceipt
-from General.models import Book, Inventory
-from Seller.models import SellerProfile
+from app.buyer.models import SellerReturnReceipt
+from app.general.models import Book, Inventory
+from app.seller.models import SellerProfile
 from tests.helpers import (
     PASSWORD,
     PassItOnTestCase,
@@ -662,7 +662,7 @@ class SellerWebhooksViewTests(SellerViewTestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertMessage(resp, "Enter a webhook URL to test.")
 
-    @mock.patch("Seller.views.post_seller_webhook", return_value=(True, None))
+    @mock.patch("app.seller.views.post_seller_webhook", return_value=(True, None))
     def test_webhooks_test_action_success_reports_delivery(self, post):
         resp = self.client.post(self.url, {"action": "test", "webhook_url": "https://hooks.example/t",
                                            "webhook_secret": "abc"})
@@ -670,7 +670,7 @@ class SellerWebhooksViewTests(SellerViewTestCase):
         url, secret, payload = post.call_args.args
         self.assertEqual((url, secret, payload["event"]), ("https://hooks.example/t", "abc", "webhook.test"))
 
-    @mock.patch("Seller.views.post_seller_webhook", return_value=(False, "HTTP 500"))
+    @mock.patch("app.seller.views.post_seller_webhook", return_value=(False, "HTTP 500"))
     def test_webhooks_test_action_failure_reports_error(self, post):
         resp = self.client.post(self.url, {"action": "test", "webhook_url": "https://hooks.example/t"})
         self.assertMessage(resp, "Test webhook failed: HTTP 500")

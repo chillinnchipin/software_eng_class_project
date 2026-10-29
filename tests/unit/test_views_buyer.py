@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import check_password
 from django.urls import reverse
 from django.utils import timezone
 
-from Buyer.models import (
+from app.buyer.models import (
     CartItem,
     Order,
     OrderItem,
@@ -18,7 +18,7 @@ from Buyer.models import (
     ReturnRequest,
     Review,
 )
-from General.models import Address, Inventory, StewardPool
+from app.general.models import Address, Inventory, StewardPool
 from tests.helpers import (
     PASSWORD,
     PassItOnTestCase,
@@ -318,7 +318,7 @@ class BuyerCheckoutPostTests(PassItOnTestCase):
                 "steward_free_list_price_cents": 0}
         self.book.is_active = False
         self.book.save()
-        with mock.patch("Buyer.views.db_cart_lines", return_value=([line], 1500)):
+        with mock.patch("app.buyer.views.db_cart_lines", return_value=([line], 1500)):
             resp = self._post()
         self.assertCheckoutError(resp, "is no longer available")
         self.assertTrue(CartItem.objects.filter(pk=ci.pk).exists())

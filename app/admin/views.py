@@ -13,9 +13,9 @@ from django.views.decorators.cache import never_cache
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import update_session_auth_hash
 
-from Admin.models import FlagReport
-from Buyer.models import Order, ReturnRequest
-from General.models import Book, Notification, User
+from app.admin.models import FlagReport
+from app.buyer.models import Order, ReturnRequest
+from app.general.models import Book, Notification, User
 
 
 def staff_required(view_func):
@@ -327,7 +327,7 @@ def toggle_book_freeze(request, book_id):
 
 @staff_required
 def admin_inventory(request):
-    from General.models import Inventory
+    from app.general.models import Inventory
 
     inventory = Inventory.objects.select_related("book").order_by("book__title")[:200]
     ctx = {**_admin_context(request), "nav_active": "inventory", "inventory": inventory}

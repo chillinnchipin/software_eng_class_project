@@ -4,7 +4,7 @@ import unittest
 
 from django.contrib.auth.hashers import check_password
 
-from General.models import Notification, User
+from app.general.models import Notification, User
 from tests.helpers import (
     PASSWORD,
     PassItOnTestCase,

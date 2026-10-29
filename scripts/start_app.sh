@@ -45,7 +45,7 @@ else
     exit 1
 fi
 
-export DJANGO_SETTINGS_MODULE=passiton.settings
+export DJANGO_SETTINGS_MODULE=config.settings.settings
 if [[ "$MODE" == server ]]; then
     DB_DIR=/home/ubuntu/passiton_data
     export SQLITE_DB_PATH="$DB_DIR/db.sqlite3"

@@ -2,8 +2,8 @@
 
 import unittest
 
-from General.models import Book, Inventory, User
-from Seller.models import SellerProfile
+from app.general.models import Book, Inventory, User
+from app.seller.models import SellerProfile
 from tests.helpers import (
     PassItOnTestCase,
     make_book,

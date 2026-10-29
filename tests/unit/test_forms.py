@@ -4,16 +4,16 @@ from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from General import views as general_views
-from General.forms import (
+from app.general import views as general_views
+from app.general.forms import (
     ForgotPasswordEmailForm,
     RegisterForm,
     SecurityQuestionForm,
     SecurityQuestionResetForm,
 )
-from General.models import User
-from Seller.forms import SellerWebhookForm
-from Seller.models import SellerProfile
+from app.general.models import User
+from app.seller.forms import SellerWebhookForm
+from app.seller.models import SellerProfile
 from tests.helpers import make_seller
 
 QUESTION = "In what city were you born?"

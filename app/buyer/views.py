@@ -12,8 +12,8 @@ from django.utils import timezone
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.hashers import make_password
 
-from Buyer.cart_helpers import add_book_to_db_cart, clear_db_cart, db_cart_lines
-from Buyer.models import (
+from app.buyer.cart_helpers import add_book_to_db_cart, clear_db_cart, db_cart_lines
+from app.buyer.models import (
     CartItem,
     Order,
     OrderItem,
@@ -23,14 +23,14 @@ from Buyer.models import (
     ReturnRequest,
     Review,
 )
-from General.forms import SecurityQuestionForm
-from General.models import Address, Book, Inventory, StewardPool, User
-from General.steward import (
+from app.general.forms import SecurityQuestionForm
+from app.general.models import Address, Book, Inventory, StewardPool, User
+from app.general.steward import (
     get_steward_pool,
     random_steward_attribution,
     user_free_book_eligible,
 )
-from Seller.webhook_notify import schedule_order_placed_webhooks
+from app.seller.webhook_notify import schedule_order_placed_webhooks
 
 _STEWARD_CONTRIBUTION_DEFAULT = Decimal("2.00")
 _STEWARD_CONTRIBUTION_MAX = Decimal("100.00")
@@ -197,7 +197,7 @@ def _cart_lines(session_cart):
 
 
 def _buyer_dashboard_context(user):
-    from General.steward import (
+    from app.general.steward import (
         free_book_cooldown_progress_percent,
         get_steward_pool,
         next_free_book_eligible_at,
@@ -280,7 +280,7 @@ def add_to_cart(request, book_id):
 @login_required(login_url="login")
 @never_cache
 def buyer_cart(request):
-    from General.steward import cart_steward_privilege_row
+    from app.general.steward import cart_steward_privilege_row
 
     if request.user.is_authenticated:
         cart_items, subtotal_cents = db_cart_lines(request.user)

@@ -4,8 +4,8 @@ from django.contrib.admin.sites import AdminSite
 from django.db import IntegrityError, transaction
 from django.test import TestCase
 
-from Admin.models import FlagReport
-from Buyer.models import (
+from app.admin.models import FlagReport
+from app.buyer.models import (
     Cart,
     CartItem,
     Order,
@@ -17,8 +17,8 @@ from Buyer.models import (
     Review,
     SellerReturnReceipt,
 )
-from General.admin import StewardPoolAdmin
-from General.models import (
+from app.general.admin import StewardPoolAdmin
+from app.general.models import (
     Address,
     Book,
     Inventory,
@@ -27,7 +27,7 @@ from General.models import (
     StewardPool,
     User,
 )
-from Seller.models import SellerProfile
+from app.seller.models import SellerProfile
 from tests.helpers import (
     add_cart_item,
     make_address,

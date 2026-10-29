@@ -2,8 +2,8 @@
 
 from django.db import transaction
 
-from Buyer.models import Cart, CartItem
-from General.models import Book
+from app.buyer.models import Cart, CartItem
+from app.general.models import Book
 
 
 def get_or_create_cart(user):

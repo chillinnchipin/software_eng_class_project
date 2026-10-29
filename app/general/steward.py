@@ -11,7 +11,7 @@ INITIAL_POOL_CENTS = 100_000_000  # $1,000,000.00
 
 
 def get_steward_pool():
-    from General.models import StewardPool
+    from app.general.models import StewardPool
 
     obj, _ = StewardPool.objects.get_or_create(
         pk=1, defaults={"pool_cents": INITIAL_POOL_CENTS}
@@ -68,7 +68,7 @@ def random_steward_attribution(*, exclude_user_id: Optional[int] = None) -> Opti
     Random verified steward for order-confirmation thank-you copy (steward free book).
     Prefers a steward other than exclude_user_id when any exist.
     """
-    from General.models import User
+    from app.general.models import User
 
     base = User.objects.filter(steward_verified=True, is_active=True)
     qs = base.exclude(pk=exclude_user_id) if exclude_user_id else base
