@@ -2,7 +2,7 @@
 APP_DIR=/home/ubuntu/software_eng_class_project
 # Ensure app files are writable by Gunicorn user (ubuntu); fixes root-owned artifacts from deploys.
 sudo chown -R ubuntu:ubuntu "$APP_DIR"
-source /home/ubuntu/env/bin/activate
+source /home/ubuntu/software_eng_class_project/.venv/bin/activate
 cd /home/ubuntu/software_eng_class_project
 
 export SQLITE_DB_PATH=/home/ubuntu/passiton_data/db.sqlite3

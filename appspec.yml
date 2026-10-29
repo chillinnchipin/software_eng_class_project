@@ -13,10 +13,7 @@ hooks:
       timeout: 300
       runas: ubuntu
   AfterInstall:
-    - location: scripts/instance_os_dependencies.sh
-      timeout: 300
-      runas: ubuntu
-    - location: scripts/python_dependencies.sh
+    - location: scripts/install_dependencies.sh
       timeout: 300
       runas: ubuntu
     - location: scripts/gunicorn.sh
