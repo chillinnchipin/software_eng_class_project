@@ -1,13 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
 
-#!/usr/bin/bash
+APP_DIR=/home/ubuntu/passiton-books
+SITE_CONFIG="$APP_DIR/nginx/nginx.conf"
+AVAILABLE_CONFIG=/etc/nginx/sites-available/passiton
+ENABLED_CONFIG=/etc/nginx/sites-enabled/passiton
 
-sudo systemctl daemon-reload
+if [[ ! -f "$SITE_CONFIG" ]]; then
+    echo "Error: Nginx configuration not found: $SITE_CONFIG" >&2
+    exit 1
+fi
+
+sudo install -m 0644 "$SITE_CONFIG" "$AVAILABLE_CONFIG"
+sudo ln -sfn "$AVAILABLE_CONFIG" "$ENABLED_CONFIG"
 sudo rm -f /etc/nginx/sites-enabled/default
-
-sudo cp /home/ubuntu/software_eng_class_project/nginx/nginx.conf /etc/nginx/sites-available/passiton
-sudo ln -s /etc/nginx/sites-available/passiton /etc/nginx/sites-enabled/
-#sudo ln -s /etc/nginx/sites-available/passiton /etc/nginx/sites-enabled
-#sudo nginx -t
-sudo gpasswd -a www-data ubuntu
-sudo systemctl restart nginx
-
+sudo nginx -t
+sudo systemctl reload nginx

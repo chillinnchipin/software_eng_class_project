@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/software_eng_class_project
+    destination: /home/ubuntu/passiton-books
 permissions:
-  - object: /home/ubuntu/software_eng_class_project
+  - object: /home/ubuntu/passiton-books
     owner: ubuntu
     group: ubuntu
 hooks:

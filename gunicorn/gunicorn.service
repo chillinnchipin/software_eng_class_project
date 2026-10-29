@@ -2,13 +2,12 @@
 Description=gunicorn daemon
 Requires=gunicorn.socket
 After=network.target
+PartOf=gunicorn.socket
+
 [Service]
 User=ubuntu
 Group=www-data
-WorkingDirectory=/home/ubuntu/software_eng_class_project
+WorkingDirectory=/home/ubuntu/passiton-books
 Environment="SQLITE_DB_PATH=/home/ubuntu/passiton_data/db.sqlite3"
-ExecStart=/home/ubuntu/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/ubuntu/software_eng_class_project/passiton/passiton.sock passiton.wsgi:application
-
-       
-[Install]
-WantedBy=multi-user.target
+ExecStart=/home/ubuntu/passiton-books/.venv/bin/gunicorn --access-logfile - --workers 3 --bind fd://3 passiton.wsgi:application
+Restart=on-failure

@@ -1,6 +1,17 @@
-#!/usr/bin/bash
-sudo cp /home/ubuntu/software_eng_class_project/gunicorn/gunicorn.socket  /etc/systemd/system/gunicorn.socket
-sudo cp /home/ubuntu/software_eng_class_project/gunicorn/gunicorn.service  /etc/systemd/system/gunicorn.service
+#!/usr/bin/env bash
+set -euo pipefail
 
-sudo systemctl start gunicorn.service
-sudo systemctl enable gunicorn.service
+APP_DIR=/home/ubuntu/passiton-books
+
+for unit in gunicorn.socket gunicorn.service; do
+    unit_file="$APP_DIR/gunicorn/$unit"
+    if [[ ! -f "$unit_file" ]]; then
+        echo "Error: systemd unit not found: $unit_file" >&2
+        exit 1
+    fi
+    sudo install -m 0644 "$unit_file" "/etc/systemd/system/$unit"
+done
+
+sudo systemctl daemon-reload
+sudo systemctl enable gunicorn.socket
+sudo systemctl restart gunicorn.socket

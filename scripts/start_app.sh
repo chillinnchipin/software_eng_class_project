@@ -65,7 +65,7 @@ fi
 
 "$PYTHON" manage.py migrate --noinput
 "$PYTHON" manage.py collectstatic --noinput
-sudo service gunicorn restart
+sudo systemctl restart gunicorn.socket
 sudo nginx -t
 sudo service nginx reload
-sudo service gunicorn status
+sudo systemctl status gunicorn.socket --no-pager
