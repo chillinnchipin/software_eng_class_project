@@ -4,3 +4,6 @@ db.sqlite3
 seeding.py
 seed_data_old.json
 .venv/
+.runserver.pid
+.runserver.stdout.log
+.runserver.stderr.log

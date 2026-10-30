@@ -24,7 +24,7 @@ python -m pip install -r requirements.txt
 ```bash
 python manage.py migrate
 ```
-For simplicity the script [install_dependencies.sh](scripts/install_dependencies.sh) is available for linux users. 
+For simplicity the script [install_dependencies.sh](scripts/install_dependencies.sh) is available for linux users. And [install_dependencies.ps1](scripts/powershell/install_dependencies.ps1) is available for Windows users.
 ### Prerequisites
 1. Python 3.12 or later
 2. Django 5.2.12
@@ -40,6 +40,11 @@ For simplicity the script [start_app.sh](scripts/start_app.sh) is available for 
 ```bash
 ./scripts/start_app.sh local
 ```
+and the script [start_app.ps1](scripts/powershell/start_app.ps1) is available for Windows users.
+```powershell
+.\scripts\start_app.ps1
+```
+The Windows server logs are written to `.runserver.stdout.log` and `.runserver.stderr.log`.
 ## Contribution
 Contributions are welcome. To contribute to the project you can either: 
 1. [Open an issue](https://github.com/chillinnchipin/passiton-books/issues)
