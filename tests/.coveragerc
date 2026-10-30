@@ -2,11 +2,11 @@
 branch = True
 data_file = tests/.coverage
 source =
-    General
-    Buyer
-    Seller
-    Admin
-    passiton
+    app.general
+    app.buyer
+    app.seller
+    app.admin
+    app.config
 omit =
     */migrations/*
     passiton/asgi.py
