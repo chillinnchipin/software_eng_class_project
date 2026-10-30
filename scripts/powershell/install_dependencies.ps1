@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$ProjectDirectory = (Join-Path $PSScriptRoot '..')
+    [string]$ProjectDirectory = (Join-Path $PSScriptRoot '..\..')
 )
 
 $ErrorActionPreference = 'Stop'

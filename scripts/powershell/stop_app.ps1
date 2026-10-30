@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$ProjectDirectory = (Join-Path $PSScriptRoot '..')
+    [string]$ProjectDirectory = (Join-Path $PSScriptRoot '..\..')
 )
 
 $ErrorActionPreference = 'Stop'
@@ -9,7 +9,7 @@ try {
     $ProjectDirectory = (Resolve-Path -LiteralPath $ProjectDirectory).Path
     $pidFile = Join-Path $ProjectDirectory '.runserver.pid'
     if (-not (Test-Path -LiteralPath $pidFile -PathType Leaf)) {
-        Write-Host 'No server started by scripts\start_app.ps1 is running.'
+        Write-Host 'No server started by scripts\powershell\start_app.ps1 is running.'
         exit 0
     }
 

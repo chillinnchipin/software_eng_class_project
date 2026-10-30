@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'
 
 try {
-    $ProjectDirectory = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
+    $ProjectDirectory = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\..')).Path
     Set-Location -LiteralPath $ProjectDirectory
 
     $testsDirectory = Join-Path $ProjectDirectory 'tests'
@@ -18,7 +18,7 @@ try {
 
     $python = Join-Path $ProjectDirectory '.venv\Scripts\python.exe'
     if (-not (Test-Path -LiteralPath $python -PathType Leaf)) {
-        throw "Virtualenv Python not found: $python. Run scripts\install_dependencies.ps1 first."
+        throw "Virtualenv Python not found: $python. Run scripts\powershell\install_dependencies.ps1 first."
     }
 
     Write-Host 'Running tests with coverage...'

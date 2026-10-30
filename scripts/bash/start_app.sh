@@ -18,7 +18,7 @@ fi
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 if [[ "$MODE" == local ]]; then
-    DEFAULT_APP_DIR="$(cd -- "$SCRIPT_DIR/.." && pwd)"
+    DEFAULT_APP_DIR="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
 else
     DEFAULT_APP_DIR=/home/ubuntu/passiton-books
 fi

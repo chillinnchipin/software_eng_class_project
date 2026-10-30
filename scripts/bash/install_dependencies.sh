@@ -7,7 +7,7 @@ if [[ $# -gt 1 ]]; then
 fi
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-requested_project_dir="${1:-${PROJECT_DIR:-"$script_dir/.."}}"
+requested_project_dir="${1:-${PROJECT_DIR:-"$script_dir/../.."}}"
 
 if ! project_dir="$(cd -- "$requested_project_dir" 2>/dev/null && pwd)"; then
     echo "Project directory does not exist: $requested_project_dir" >&2

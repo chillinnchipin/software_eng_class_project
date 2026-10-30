@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$ProjectDirectory = (Join-Path $PSScriptRoot '..')
+    [string]$ProjectDirectory = (Join-Path $PSScriptRoot '..\..')
 )
 
 $ErrorActionPreference = 'Stop'
@@ -27,7 +27,7 @@ try {
         $existingProcess = Get-Process -Id ([int]$existingState.ProcessId) -ErrorAction SilentlyContinue
         if ($null -ne $existingProcess -and
             $existingProcess.StartTime.ToUniversalTime().Ticks -eq [long]$existingState.StartTimeUtcTicks) {
-            throw "A server started by this script is already running (PID $($existingState.ProcessId)). Run scripts\stop_app.ps1 first."
+            throw "A server started by this script is already running (PID $($existingState.ProcessId)). Run scripts\powershell\stop_app.ps1 first."
         }
         Remove-Item -LiteralPath $pidFile -Force
     }

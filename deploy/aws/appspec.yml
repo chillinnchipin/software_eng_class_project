@@ -9,24 +9,24 @@ permissions:
     group: ubuntu
 hooks:
   BeforeInstall:
-    - location: scripts/clean_instance.sh
+    - location: scripts/bash/clean_instance.sh
       timeout: 300
       runas: ubuntu
   AfterInstall:
-    - location: scripts/install_dependencies.sh
+    - location: scripts/bash/install_dependencies.sh
       timeout: 300
       runas: ubuntu
-    - location: scripts/gunicorn.sh
+    - location: scripts/bash/gunicorn.sh
       timeout: 300
       runas: ubuntu
-    - location: scripts/nginx.sh
+    - location: scripts/bash/nginx.sh
       timeout: 300
       runas: ubuntu
   ApplicationStop:
-    - location: scripts/stop_app.sh
+    - location: scripts/bash/stop_app.sh
       timeout: 300
       runas: ubuntu
   ApplicationStart:
-    - location: scripts/start_app.sh
+    - location: scripts/bash/start_app.sh
       timeout: 300
       runas: ubuntu
