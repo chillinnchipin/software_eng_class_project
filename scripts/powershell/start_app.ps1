@@ -1,6 +1,8 @@
 [CmdletBinding()]
 param(
-    [string]$ProjectDirectory = (Join-Path $PSScriptRoot '..\..')
+    [string]$ProjectDirectory = (Join-Path $PSScriptRoot '..\..'),
+    [ValidateRange(1, 65535)]
+    [Nullable[int]]$Port
 )
 
 $ErrorActionPreference = 'Stop'
@@ -47,8 +49,12 @@ try {
 
         $stdoutLog = Join-Path $ProjectDirectory '.runserver.stdout.log'
         $stderrLog = Join-Path $ProjectDirectory '.runserver.stderr.log'
+        $runserverArguments = @('manage.py', 'runserver')
+        if ($null -ne $Port) {
+            $runserverArguments += "127.0.0.1:$Port"
+        }
         $server = Start-Process -FilePath $python `
-            -ArgumentList @('manage.py', 'runserver') `
+            -ArgumentList $runserverArguments `
             -WorkingDirectory $ProjectDirectory `
             -RedirectStandardOutput $stdoutLog `
             -RedirectStandardError $stderrLog `
@@ -67,7 +73,8 @@ try {
         }
         $state | ConvertTo-Json | Set-Content -LiteralPath $pidFile -Encoding ASCII
         Write-Host "Development server started (PID $($server.Id))."
-        Write-Host 'Open http://127.0.0.1:8000 in your browser.'
+        $serverPort = if ($null -ne $Port) { $Port } else { 8000 }
+        Write-Host "Open http://127.0.0.1:$serverPort in your browser."
         Write-Host "Logs: $stdoutLog and $stderrLog"
     }
     finally {

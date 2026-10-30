@@ -2,6 +2,7 @@
 set -euo pipefail
 
 MODE=server
+PORT=""
 if [[ $# -gt 0 ]]; then
     case "$1" in
         server|local)
@@ -11,8 +12,34 @@ if [[ $# -gt 0 ]]; then
     esac
 fi
 
-if [[ $# -gt 1 ]]; then
-    echo "Usage: $0 [server|local] [project-directory]" >&2
+POSITIONAL=()
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --port)
+            if [[ $# -lt 2 || -z "$2" ]]; then
+                echo "Error: --port requires a port number" >&2
+                exit 2
+            fi
+            PORT="$2"
+            shift 2
+            ;;
+        --port=*)
+            PORT="${1#*=}"
+            if [[ -z "$PORT" ]]; then
+                echo "Error: --port requires a port number" >&2
+                exit 2
+            fi
+            shift
+            ;;
+        *)
+            POSITIONAL+=("$1")
+            shift
+            ;;
+    esac
+done
+
+if [[ ${#POSITIONAL[@]} -gt 1 ]]; then
+    echo "Usage: $0 [server|local] [project-directory] [--port PORT]" >&2
     exit 2
 fi
 
@@ -22,7 +49,7 @@ if [[ "$MODE" == local ]]; then
 else
     DEFAULT_APP_DIR=/home/ubuntu/passiton-books
 fi
-REQUESTED_APP_DIR="${1:-$DEFAULT_APP_DIR}"
+REQUESTED_APP_DIR="${POSITIONAL[0]:-$DEFAULT_APP_DIR}"
 if ! APP_DIR="$(cd -- "$REQUESTED_APP_DIR" 2>/dev/null && pwd)"; then
     echo "Error: application directory not found: $REQUESTED_APP_DIR" >&2
     exit 1
@@ -60,6 +87,9 @@ fi
 
 if [[ "$MODE" == local ]]; then
     "$PYTHON" manage.py migrate --noinput
+    if [[ -n "$PORT" ]]; then
+        exec "$PYTHON" manage.py runserver "127.0.0.1:$PORT"
+    fi
     exec "$PYTHON" manage.py runserver
 fi
 

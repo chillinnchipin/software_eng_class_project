@@ -40,6 +40,12 @@ For simplicity the script [start_app.sh](scripts/bash/start_app.sh) is available
 ```bash
 ./scripts/bash/start_app.sh local
 ```
+To use a different local port, pass `--port` (for example, `./scripts/bash/start_app.sh local --port 8080`). On Windows, use `-Port 8080`:
+
+```powershell
+.\scripts\powershell\start_app.ps1 -Port 8080
+```
+If no port is provided, Django uses its default port, 8000.
 and the script [start_app.ps1](scripts/powershell/start_app.ps1) is available for Windows users.
 ```powershell
 .\scripts\powershell\start_app.ps1
