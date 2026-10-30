@@ -8,14 +8,14 @@ ENV PYTHONUNBUFFERED=1
 
 # install dependencies
 COPY requirements.txt /passiton/
-COPY tests/requirements.txt /passiton/tests/
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir -r tests/requirements.txt
+RUN pip install -r requirements.txt --no-cache-dir
 
 # copy project files
 COPY . /passiton/
 
 # run test
+RUN python -m coverage run --rcfile=tests/.coveragerc manage.py test tests --settings=tests.settings
+RUN python -m coverage report --rcfile=tests/.coveragerc
 
 # Expose port
 EXPOSE 8000
