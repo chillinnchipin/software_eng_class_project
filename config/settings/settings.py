@@ -121,7 +121,7 @@ STATICFILES_DIRS = []
 if _BOOK_IMAGES_DIR.exists():
     STATICFILES_DIRS.append(str(_BOOK_IMAGES_DIR.parent))
 
-_ASSETS_DIR = BASE_DIR / "static"
+_ASSETS_DIR = BASE_DIR / "assets"
 if _ASSETS_DIR.exists():
     STATICFILES_DIRS.append(_ASSETS_DIR)
 

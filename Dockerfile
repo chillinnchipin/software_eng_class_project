@@ -26,7 +26,7 @@ COPY --chown=passiton:passiton manage.py ${APP_DIR}
 COPY --chown=passiton:passiton fixtures/ ${APP_DIR}/fixtures/
 COPY --chown=passiton:passiton tests/ ${APP_DIR}/tests/
 COPY --chown=passiton:passiton config/ ${APP_DIR}/config/
-#COPY static/ ${APP_DIR}/static/
+COPY --chown=passiton:passiton assets/ ${APP_DIR}/assets/
 COPY --chown=passiton:passiton app/ ${APP_DIR}/app/
 
 # Run tests
