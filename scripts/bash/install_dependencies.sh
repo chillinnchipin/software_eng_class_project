@@ -28,8 +28,8 @@ sudo apt install -y python3-venv
 # Create virtual environment
 venv_dir="$project_dir/.venv"
 echo "Creating python virtual environment at $venv_dir"
-python3 -m venv "$venv_dir"
+sudo python3 -m venv "$venv_dir"
 
 # Install python dependencies
 echo "Installing project python dependencies from $project_dir/requirements.txt"
-"$venv_dir/bin/python" -m pip install -r "$project_dir/requirements.txt"
+sudo "$venv_dir/bin/python" -m pip install -r "$project_dir/requirements.txt"

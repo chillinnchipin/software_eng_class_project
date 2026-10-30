@@ -73,6 +73,16 @@ else
 fi
 
 export DJANGO_SETTINGS_MODULE=config.settings.settings
+if [[ "${CONTAINER_RUNTIME:-}" == 1 ]]; then
+    export SQLITE_DB_PATH="${SQLITE_DB_PATH:-$APP_DIR/db.sqlite3}"
+    echo "Running migrations"
+    "$PYTHON" manage.py migrate --noinput
+    echo "Loading seed data"
+    "$PYTHON" manage.py loaddata fixtures/seed_data.json
+    echo "Starting server"
+    exec "$PYTHON" manage.py runserver 0.0.0.0:8000
+fi
+
 if [[ "$MODE" == server ]]; then
     DB_DIR=/home/ubuntu/passiton_data
     export SQLITE_DB_PATH="$DB_DIR/db.sqlite3"
