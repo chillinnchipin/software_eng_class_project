@@ -6,9 +6,9 @@ from unittest import mock
 import requests
 from django.test import Client
 
-from Buyer.models import CartItem, Order, OrderItemBookSnapshot, OrderShippingAddress
-from General.models import Address, Inventory, StewardPool
-from Seller.models import SellerProfile
+from app.buyer.models import CartItem, Order, OrderItemBookSnapshot, OrderShippingAddress
+from app.general.models import Address, Inventory, StewardPool
+from app.seller.models import SellerProfile
 from tests.helpers import (
     PassItOnTestCase,
     add_cart_item,
@@ -275,7 +275,7 @@ class OrderWebhookFlowTests(PassItOnTestCase):
 
     def test_checkout_webhook_failure_does_not_break_order(self):
         with mock.patch(
-            "Seller.webhook_notify.requests.post", side_effect=requests.ConnectionError("boom")
+            "app.seller.webhook_notify.requests.post", side_effect=requests.ConnectionError("boom")
         ):
             with self.captureOnCommitCallbacks(execute=True):
                 resp = checkout(self.client, make_address(self.buyer), make_payment_method(self.buyer))
@@ -285,7 +285,7 @@ class OrderWebhookFlowTests(PassItOnTestCase):
     # BUG: webhook_notify prefetches/iterates `order.orderitem` but the related_name is `order_items`, so no webhook is ever sent.
     @unittest.expectedFailure
     def test_checkout_with_seller_webhook_enabled_posts_order_placed_event(self):
-        with mock.patch("Seller.webhook_notify.requests.post") as post:
+        with mock.patch("app.seller.webhook_notify.requests.post") as post:
             post.return_value.raise_for_status.return_value = None
             with self.captureOnCommitCallbacks(execute=True):
                 checkout(self.client, make_address(self.buyer), make_payment_method(self.buyer))

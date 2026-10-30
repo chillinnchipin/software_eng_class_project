@@ -10,9 +10,9 @@ import itertools
 from django.contrib.auth.hashers import make_password
 from django.test import TestCase
 
-from Admin.models import FlagReport
-from Buyer.cart_helpers import get_or_create_cart
-from Buyer.models import (
+from app.admin.models import FlagReport
+from app.buyer.cart_helpers import get_or_create_cart
+from app.buyer.models import (
     CartItem,
     Order,
     OrderItem,
@@ -22,8 +22,8 @@ from Buyer.models import (
     ReturnRequest,
     Review,
 )
-from General.models import Address, Book, Inventory, StewardPool, User
-from Seller.models import SellerProfile
+from app.general.models import Address, Book, Inventory, StewardPool, User
+from app.seller.models import SellerProfile
 
 PASSWORD = "Sup3r-secret-pw"
 SECURITY_ANSWER = "Springfield"

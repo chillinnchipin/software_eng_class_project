@@ -2,8 +2,8 @@
 
 from django.test import Client
 
-from Admin.models import FlagReport
-from General.models import Book, User
+from app.admin.models import FlagReport
+from app.general.models import Book, User
 from tests.helpers import (
     PASSWORD,
     SECURITY_ANSWER,

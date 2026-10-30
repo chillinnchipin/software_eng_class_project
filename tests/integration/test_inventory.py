@@ -2,8 +2,8 @@
 
 from django.test import Client
 
-from Buyer.models import CartItem
-from General.models import Book, Inventory
+from app.buyer.models import CartItem
+from app.general.models import Book, Inventory
 from tests.helpers import (
     PassItOnTestCase,
     add_cart_item,

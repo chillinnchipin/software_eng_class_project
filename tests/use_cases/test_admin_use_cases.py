@@ -2,8 +2,8 @@
 
 import unittest
 
-from Admin.models import FlagReport
-from General.models import User
+from app.admin.models import FlagReport
+from app.general.models import User
 from tests.helpers import (
     PassItOnTestCase,
     make_admin,

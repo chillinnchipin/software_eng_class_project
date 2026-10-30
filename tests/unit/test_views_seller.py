@@ -11,9 +11,9 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import override_settings
 from django.urls import reverse
 
-from Buyer.models import SellerReturnReceipt
-from General.models import Book, Inventory
-from Seller.models import SellerProfile
+from app.buyer.models import SellerReturnReceipt
+from app.general.models import Book, Inventory
+from app.seller.models import SellerProfile
 from tests.helpers import (
     PASSWORD,
     PassItOnTestCase,
@@ -152,12 +152,12 @@ class SellerProfileViewTests(SellerViewTestCase):
 
 
 class _ImagesDirMixin:
-    """Redirect cover uploads to a temp dir so tests never write into the repo's book_images/."""
+    """Redirect cover uploads to a temp dir so tests never write into the repo's media/book_images/."""
 
     def setUp(self):
         super().setUp()
         self.tmp = Path(tempfile.mkdtemp())
-        (self.tmp / "book_images").mkdir()
+        (self.tmp / "media" / "book_images").mkdir(parents=True)
         self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
         override = override_settings(BASE_DIR=self.tmp)
         override.enable()
@@ -247,7 +247,7 @@ class AddBooksViewTests(_ImagesDirMixin, SellerViewTestCase):
         self._post(title="My: Book?", cover_image=cover)
         book = Book.objects.get()
         self.assertIsNone(book.cover_image_url)
-        self.assertEqual((self.tmp / "book_images" / "My_ Book_.jpg").read_bytes(), b"\xff\xd8jpegdata")
+        self.assertEqual((self.tmp / "media" / "book_images" / "My_ Book_.jpg").read_bytes(), b"\xff\xd8jpegdata")
 
     def test_add_books_cover_extension_inferred_from_content_type(self):
         """A file with no usable extension gets one from its content type."""
@@ -255,7 +255,7 @@ class AddBooksViewTests(_ImagesDirMixin, SellerViewTestCase):
             with self.subTest(ctype=ctype):
                 cover = SimpleUploadedFile("upload.bin", b"img", content_type=ctype)
                 self._post(title=f"Inferred {ext[1:]}", cover_image=cover)
-                self.assertTrue((self.tmp / "book_images" / f"Inferred {ext[1:]}{ext}").exists())
+                self.assertTrue((self.tmp / "media" / "book_images" / f"Inferred {ext[1:]}{ext}").exists())
 
 
 class ManageInventoryGetTests(SellerViewTestCase):
@@ -662,7 +662,7 @@ class SellerWebhooksViewTests(SellerViewTestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertMessage(resp, "Enter a webhook URL to test.")
 
-    @mock.patch("Seller.views.post_seller_webhook", return_value=(True, None))
+    @mock.patch("app.seller.views.post_seller_webhook", return_value=(True, None))
     def test_webhooks_test_action_success_reports_delivery(self, post):
         resp = self.client.post(self.url, {"action": "test", "webhook_url": "https://hooks.example/t",
                                            "webhook_secret": "abc"})
@@ -670,7 +670,7 @@ class SellerWebhooksViewTests(SellerViewTestCase):
         url, secret, payload = post.call_args.args
         self.assertEqual((url, secret, payload["event"]), ("https://hooks.example/t", "abc", "webhook.test"))
 
-    @mock.patch("Seller.views.post_seller_webhook", return_value=(False, "HTTP 500"))
+    @mock.patch("app.seller.views.post_seller_webhook", return_value=(False, "HTTP 500"))
     def test_webhooks_test_action_failure_reports_error(self, post):
         resp = self.client.post(self.url, {"action": "test", "webhook_url": "https://hooks.example/t"})
         self.assertMessage(resp, "Test webhook failed: HTTP 500")

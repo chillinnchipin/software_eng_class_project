@@ -2,8 +2,8 @@
 
 from django.test import Client
 
-from Buyer.models import CartItem
-from General.models import User
+from app.buyer.models import CartItem
+from app.general.models import User
 from tests.helpers import (
     PASSWORD,
     SECURITY_ANSWER,

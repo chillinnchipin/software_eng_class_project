@@ -24,17 +24,17 @@ from django.http import HttpResponse
 from django.test import RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.utils import timezone
 
-from Admin import views as admin_views
-from Buyer import cart_helpers
-from Buyer import views as buyer_views
-from Buyer.models import Cart, CartItem, SellerReturnReceipt
-from General import steward
-from General import views as general_views
-from General.middleware import NoCacheMiddleware
-from General.models import User
-from Seller import views as seller_views
-from Seller import webhook_notify
-from Seller.models import SellerProfile
+from app.admin import views as admin_views
+from app.buyer import cart_helpers
+from app.buyer import views as buyer_views
+from app.buyer.models import Cart, CartItem, SellerReturnReceipt
+from app.general import steward
+from app.general import views as general_views
+from app.general.middleware import NoCacheMiddleware
+from app.general.models import User
+from app.seller import views as seller_views
+from app.seller import webhook_notify
+from app.seller.models import SellerProfile
 from tests.helpers import (
     add_cart_item,
     ensure_pool,
@@ -70,7 +70,7 @@ class GetStewardPoolTests(TestCase):
         self.assertEqual(steward.get_steward_pool().pool_cents, 5_000)
 
     def test_get_steward_pool_missing_row_created_with_initial_balance(self):
-        from General.models import StewardPool
+        from app.general.models import StewardPool
 
         StewardPool.objects.all().delete()
         pool = steward.get_steward_pool()
@@ -173,7 +173,7 @@ class RandomStewardAttributionTests(TestCase):
     def test_random_steward_attribution_row_vanished_none(self):
         """If the chosen id no longer exists (race), the helper returns None."""
         make_steward()
-        with mock.patch("General.steward.random.choice", return_value=10**9):
+        with mock.patch("app.general.steward.random.choice", return_value=10**9):
             self.assertIsNone(steward.random_steward_attribution())
 
 
@@ -354,7 +354,7 @@ class SerializeWebhookBodyTests(SimpleTestCase):
         )
 
 
-@mock.patch("Seller.webhook_notify.requests.post")
+@mock.patch("app.seller.webhook_notify.requests.post")
 class PostSellerWebhookTests(SimpleTestCase):
     payload = {"event": "webhook.test"}
 
@@ -458,12 +458,12 @@ class SendOrderPlacedWebhooksTests(TestCase):
         profile.save()
         self.order = make_order(make_buyer(), [(make_book(self.seller, title="Hooked"), 1)])
 
-    @mock.patch("Seller.webhook_notify.requests.post")
+    @mock.patch("app.seller.webhook_notify.requests.post")
     def test_send_webhooks_missing_order_returns_without_posting(self, post):
         self.assertIsNone(webhook_notify.send_order_placed_webhooks_for_order(10**9))
         post.assert_not_called()
 
-    @mock.patch("Seller.webhook_notify.requests.post")
+    @mock.patch("app.seller.webhook_notify.requests.post")
     def test_send_webhooks_disabled_profile_does_not_post(self, post):
         SellerProfile.objects.filter(user=self.seller).update(webhook_enabled=False)
         webhook_notify.send_order_placed_webhooks_for_order(self.order.id)
@@ -472,7 +472,7 @@ class SendOrderPlacedWebhooksTests(TestCase):
     # BUG: send_order_placed_webhooks_for_order prefetches "orderitem" (should be "order_items");
     # the error is swallowed by `except Exception`, so enabled sellers never receive webhooks.
     @unittest.expectedFailure
-    @mock.patch("Seller.webhook_notify.requests.post")
+    @mock.patch("app.seller.webhook_notify.requests.post")
     def test_send_webhooks_enabled_seller_receives_post(self, post):
         webhook_notify.send_order_placed_webhooks_for_order(self.order.id)
         post.assert_called_once()
@@ -480,14 +480,14 @@ class SendOrderPlacedWebhooksTests(TestCase):
         self.assertEqual(body["event"], "order.placed")
 
     def test_schedule_order_placed_webhooks_registers_on_commit(self):
-        with mock.patch("Seller.webhook_notify.send_order_placed_webhooks_for_order") as send:
+        with mock.patch("app.seller.webhook_notify.send_order_placed_webhooks_for_order") as send:
             with self.captureOnCommitCallbacks(execute=True) as callbacks:
                 webhook_notify.schedule_order_placed_webhooks(self.order.id)
         self.assertEqual(len(callbacks), 1)
         send.assert_called_once_with(self.order.id)
 
     def test_schedule_order_placed_webhooks_not_run_before_commit(self):
-        with mock.patch("Seller.webhook_notify.send_order_placed_webhooks_for_order") as send:
+        with mock.patch("app.seller.webhook_notify.send_order_placed_webhooks_for_order") as send:
             with self.captureOnCommitCallbacks(execute=False):
                 webhook_notify.schedule_order_placed_webhooks(self.order.id)
         send.assert_not_called()
@@ -730,7 +730,7 @@ class BookCoverLookupTests(SimpleTestCase):
 
 class RepoBookCoverTests(SimpleTestCase):
     def test_cover_filename_repo_images_dir_finds_1984(self):
-        """Read-only check against the shipped book_images/ directory."""
+        """Read-only check against the shipped media/book_images/ directory."""
         self.assertEqual(general_views._get_book_cover_filename("1984"), "1984.jpg")
 
 
@@ -754,14 +754,17 @@ class GetBookImagesDirTests(SimpleTestCase):
         (self.root / "proj").mkdir()
 
     def test_book_images_dir_existing_under_base_dir_returned(self):
-        (self.root / "proj" / "book_images").mkdir()
+        (self.root / "proj" / "media" / "book_images").mkdir(parents=True)
         with override_settings(BASE_DIR=self.root / "proj"):
-            self.assertEqual(seller_views._get_book_images_dir(), self.root / "proj" / "book_images")
+            self.assertEqual(
+                seller_views._get_book_images_dir(),
+                self.root / "proj" / "media" / "book_images",
+            )
 
     def test_book_images_dir_missing_falls_back_to_parent_and_creates(self):
         with override_settings(BASE_DIR=self.root / "proj"):
             d = seller_views._get_book_images_dir()
-        self.assertEqual(d, self.root / "book_images")
+        self.assertEqual(d, self.root / "media" / "book_images")
         self.assertTrue(d.is_dir())
 
 

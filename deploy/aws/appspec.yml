@@ -1,0 +1,32 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/passiton-books
+permissions:
+  - object: /home/ubuntu/passiton-books
+    owner: ubuntu
+    group: ubuntu
+hooks:
+  BeforeInstall:
+    - location: scripts/bash/clean_instance.sh
+      timeout: 300
+      runas: ubuntu
+  AfterInstall:
+    - location: scripts/bash/install_dependencies.sh
+      timeout: 300
+      runas: ubuntu
+    - location: scripts/bash/gunicorn.sh
+      timeout: 300
+      runas: ubuntu
+    - location: scripts/bash/nginx.sh
+      timeout: 300
+      runas: ubuntu
+  ApplicationStop:
+    - location: scripts/bash/stop_app.sh
+      timeout: 300
+      runas: ubuntu
+  ApplicationStart:
+    - location: scripts/bash/start_app.sh
+      timeout: 300
+      runas: ubuntu

@@ -8,8 +8,8 @@ import unittest
 
 from django.contrib.auth.hashers import check_password
 
-from Buyer.models import CartItem, Order, ReturnRequest, Review
-from General.models import Inventory, User
+from app.buyer.models import CartItem, Order, ReturnRequest, Review
+from app.general.models import Inventory, User
 from tests.helpers import (
     PASSWORD,
     PassItOnTestCase,

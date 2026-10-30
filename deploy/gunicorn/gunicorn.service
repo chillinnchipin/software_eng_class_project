@@ -1,0 +1,13 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+PartOf=gunicorn.socket
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/passiton-books
+Environment="SQLITE_DB_PATH=/home/ubuntu/passiton_data/db.sqlite3"
+ExecStart=/home/ubuntu/passiton-books/.venv/bin/gunicorn --access-logfile - --workers 3 --bind fd://3 config.wsgi:application
+Restart=on-failure

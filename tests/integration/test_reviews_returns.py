@@ -4,8 +4,8 @@ import unittest
 
 from django.test import Client
 
-from Buyer.models import Order, ReturnRequest, Review, SellerReturnReceipt
-from General.models import Inventory
+from app.buyer.models import Order, ReturnRequest, Review, SellerReturnReceipt
+from app.general.models import Inventory
 from tests.helpers import (
     PassItOnTestCase,
     add_cart_item,

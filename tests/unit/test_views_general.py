@@ -8,10 +8,10 @@ from unittest import mock
 from django.contrib.auth.hashers import check_password
 from django.test import TestCase
 
-from Admin.models import FlagReport
-from Buyer.models import CartItem
-from General.models import StewardContribution, User
-from Seller.models import SellerProfile
+from app.admin.models import FlagReport
+from app.buyer.models import CartItem
+from app.general.models import StewardContribution, User
+from app.seller.models import SellerProfile
 from tests.helpers import (
     PASSWORD,
     SECURITY_ANSWER,
@@ -632,7 +632,7 @@ class ServeBookCoverViewTests(TestCase):
         self.addCleanup(tmp.cleanup)
         self.images_dir = Path(tmp.name)
         (self.images_dir / "Cover.jpg").write_bytes(b"\xff\xd8fake-jpeg")
-        patcher = mock.patch("General.views._BOOK_IMAGES_DIR", self.images_dir)
+        patcher = mock.patch("app.general.views._BOOK_IMAGES_DIR", self.images_dir)
         patcher.start()
         self.addCleanup(patcher.stop)
 
@@ -654,7 +654,7 @@ class ServeBookCoverViewTests(TestCase):
         self.assertEqual(self.client.get("/book_covers/folder").status_code, 404)
 
     def test_serve_book_cover_missing_images_dir_returns_404(self):
-        with mock.patch("General.views._BOOK_IMAGES_DIR", self.images_dir / "does-not-exist"):
+        with mock.patch("app.general.views._BOOK_IMAGES_DIR", self.images_dir / "does-not-exist"):
             self.assertEqual(self.client.get("/book_covers/Cover.jpg").status_code, 404)
 
 
