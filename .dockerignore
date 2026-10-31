@@ -167,6 +167,9 @@ coverage.xml
 **/.hg/
 **/.svn/
 **/media/
+!media/
+!media/book_images/
+!media/book_images/**
 **/static/
 **/staticfiles/
 

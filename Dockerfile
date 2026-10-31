@@ -27,6 +27,7 @@ COPY --chown=passiton:passiton fixtures/ ${APP_DIR}/fixtures/
 COPY --chown=passiton:passiton tests/ ${APP_DIR}/tests/
 COPY --chown=passiton:passiton config/ ${APP_DIR}/config/
 COPY --chown=passiton:passiton assets/ ${APP_DIR}/assets/
+COPY --chown=passiton:passiton media/book_images/ ${APP_DIR}/media/book_images/
 COPY --chown=passiton:passiton app/ ${APP_DIR}/app/
 
 # Run tests
