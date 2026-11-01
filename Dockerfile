@@ -19,6 +19,8 @@ USER passiton
 # Install dependencies
 COPY --chown=passiton:passiton scripts/ ${APP_DIR}/scripts/
 COPY --chown=passiton:passiton requirements.txt ${APP_DIR}
+# Git tracks these scripts without executable permissions, so set them in the image.
+RUN chmod +x ${APP_DIR}/scripts/bash/*.sh
 RUN ${APP_DIR}/scripts/bash/install_dependencies.sh ${APP_DIR}
 
 # Copy project files
@@ -27,6 +29,7 @@ COPY --chown=passiton:passiton fixtures/ ${APP_DIR}/fixtures/
 COPY --chown=passiton:passiton tests/ ${APP_DIR}/tests/
 COPY --chown=passiton:passiton config/ ${APP_DIR}/config/
 COPY --chown=passiton:passiton assets/ ${APP_DIR}/assets/
+COPY --chown=passiton:passiton media/book_images/ ${APP_DIR}/media/book_images/
 COPY --chown=passiton:passiton app/ ${APP_DIR}/app/
 
 # Run tests
